@@ -13,6 +13,6 @@ namespace HotelNet.Service.Data
         {
         }
 
-        DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
     }
 }

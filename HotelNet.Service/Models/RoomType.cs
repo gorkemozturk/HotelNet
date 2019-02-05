@@ -21,7 +21,6 @@ namespace HotelNet.Service.Models
         public double Tax { get; set; }
 
         public bool IsAvailable { get; set; }
-
         public DateTime CreatedAt { get; set; }
     }
 }
