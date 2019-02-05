@@ -91,6 +91,7 @@ namespace HotelNet.Service.Controllers
                 return BadRequest(ModelState);
             }
 
+            roomType.CreatedAt = DateTime.Now;
             _context.RoomTypes.Add(roomType);
             await _context.SaveChangesAsync();
 
