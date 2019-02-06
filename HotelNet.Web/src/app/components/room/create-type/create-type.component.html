@@ -1,0 +1,43 @@
+<div class="card bg-light rounded-0 border-0">
+  <div class="card-header text-center rounded-0">
+    CREATE A NEW ROOM TYPE
+  </div>
+  <div class="card-body rounded-0">
+    <form #form="ngForm" autocomplete="off">
+      <div class="form-group">
+        <input name="name" #name="ngModel" [class.is-invalid]="name.invalid && name.touched" [class.is-valid]="name.valid" [(ngModel)]="roomService.name" class="form-control rounded-0" placeholder="Room Type Name" maxlength="15" required>
+        <div *ngIf="price.errors?.required" class="invalid-feedback">
+          The name field is required.
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <input pattern="^[0-9]{1,9}$" name="price" #price="ngModel" [(ngModel)]="roomService.price" [class.is-invalid]="price.invalid && price.touched" [class.is-valid]="price.valid" class="form-control rounded-0" placeholder="Price" required>
+          <div *ngIf="price.errors?.required" class="invalid-feedback">
+            The price field is required.
+          </div>
+          <div *ngIf="price.errors?.pattern" class="invalid-feedback">
+            The price field must be numeric and 9 digits at most.
+          </div>
+        </div>
+        <div class="col">
+          <input pattern="^[0-9]{1,9}$" name="tax" #tax="ngModel" [(ngModel)]="roomService.tax" [class.is-invalid]="tax.invalid && tax.touched" [class.is-valid]="tax.valid" class="form-control rounded-0" placeholder="Tax" required>
+          <div *ngIf="tax.errors?.required" class="invalid-feedback">
+            The tax field is required.
+        </div>
+          <div *ngIf="tax.errors?.pattern" class="invalid-feedback">
+            The tax field must be numeric and 9 digits at most.
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-check">
+        <input name="isAvailable" #isAvailable="ngModel" [(ngModel)]="roomService.isAvailable" type="checkbox" class="form-check-input">
+        <label class="form-check-label">Avaliable</label>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer text-right rounded-0">
+    <div class="btn btn-sm btn-secondary rounded-0" (click)="reset(form)">Reset</div>
+    <div class="btn btn-sm btn-primary rounded-0 ml-1" (click)="onSubmit(form)">Submit</div>
+  </div>
+</div>

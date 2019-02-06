@@ -4,6 +4,9 @@ import { RoomType } from 'src/app/models/room-type';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Room } from 'src/app/models/room';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CreateRoomComponent } from './create-room/create-room.component';
+import { CreateTypeComponent } from './create-type/create-type.component';
 
 @Component({
   selector: 'app-room',
@@ -14,33 +17,40 @@ export class RoomComponent implements OnInit {
   roomTypes: RoomType[];
   rooms: Room[];
 
-  constructor(private roomService: RoomService, private toastr: ToastrService) { }
+  constructor(private roomService: RoomService, private toastr: ToastrService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.roomService.GetRoomTypes().subscribe((res: RoomType[]) => this.roomTypes = res);
-    this.roomService.GetRooms().subscribe((res: Room[]) => this.rooms = res);
+    this.roomService.GetRoomTypes();
+    this.roomService.GetRooms();
   }
 
-  onSubmit(form: NgForm) {
-    this.roomService.PostRoomType(form.value).subscribe(
-      (res: RoomType) => {
-        this.roomTypes.push(res);
-        this.toastr.success('You have been inserted the room type successfully.', 'Successfully');
-        form.reset();
-      },
-      err => {
-        console.log("An error occurred.")
-        alert(err);
-      }
-    );
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.panelClass = 'customized-dialog';
+    dialogConfig.width = '350px';
+
+    this.dialog.open(CreateRoomComponent, dialogConfig);
   }
 
-  onDelete(id: number, type: RoomType) {
+  openTypeDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.panelClass = 'customized-dialog';
+    dialogConfig.width = '350px';
+
+    this.dialog.open(CreateTypeComponent, dialogConfig);
+  }
+
+  onDelete(id: number) {
     if (confirm('Are you sure to delete this room type?')) {
       this.roomService.DeleteRoomType(id).subscribe(
-        (res: RoomType) => {
-          const index = this.roomTypes.indexOf(type);
-          this.roomTypes.splice(index, 1);
+        res => {
+          this.roomService.GetRoomTypes();
           this.toastr.warning('You have been deleted the room type successfully.', 'Successfully');
         },
         err => {
@@ -51,26 +61,11 @@ export class RoomComponent implements OnInit {
     }
   }
 
-  onRoomSubmit(form: NgForm) {
-    this.roomService.PostRoom(form.value).subscribe(
-      (res: Room) => {
-        this.rooms.push(res);
-        this.toastr.success('You have been inserted the room successfully.', 'Successfully');
-        form.reset();
-      },
-      err => {
-        console.log("An error occurred.")
-        alert(err);
-      }
-    );
-  }
-
-  onRoomDelete(id: number, room: Room) {
+  onRoomDelete(id: number) {
     if (confirm('Are you sure to delete this room?')) {
       this.roomService.DeleteRoom(id).subscribe(
-        (res: Room) => {
-          const index = this.rooms.indexOf(room);
-          this.rooms.splice(index, 1);
+        res => {
+          this.roomService.GetRooms();
           this.toastr.warning('You have been deleted the room successfully.', 'Successfully');
         },
         err => {
@@ -79,10 +74,6 @@ export class RoomComponent implements OnInit {
         }
       );
     }
-  }
-
-  reset(form: NgForm) {
-    form.reset();
   }
 
 }

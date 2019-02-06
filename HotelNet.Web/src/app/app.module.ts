@@ -11,6 +11,10 @@ import { HomeComponent } from './components/home/home.component';
 import { RoomService } from './services/room.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CreateRoomComponent } from './components/room/create-room/create-room.component';
+import { CreateTypeComponent } from './components/room/create-type/create-type.component';
+import { BookingComponent } from './components/booking/booking.component';
 
 const routers: Route[] = [
   {
@@ -20,6 +24,10 @@ const routers: Route[] = [
   {
     path: 'rooms',
     component: RoomComponent
+  },
+  {
+    path: 'bookings',
+    component: BookingComponent
   }
 ]
 
@@ -29,7 +37,10 @@ const routers: Route[] = [
     HeaderComponent,
     FooterComponent,
     RoomComponent,
-    HomeComponent
+    HomeComponent,
+    CreateRoomComponent,
+    CreateTypeComponent,
+    BookingComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +48,12 @@ const routers: Route[] = [
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatDialogModule
+  ],
+  entryComponents: [
+    CreateRoomComponent,
+    CreateTypeComponent
   ],
   providers: [
     RoomService

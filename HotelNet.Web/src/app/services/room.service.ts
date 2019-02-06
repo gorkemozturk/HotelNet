@@ -7,13 +7,16 @@ import { Room } from '../models/room';
   providedIn: 'root'
 })
 export class RoomService {
+  rooms: Room[];
+  roomTypes: RoomType[];
+
   private readonly typeUrl = 'https://localhost:44379/api/roomtypes/';
   private readonly roomUrl = 'https://localhost:44379/api/rooms/';
 
   constructor(private http: HttpClient) { }
 
   GetRoomTypes() {
-    return this.http.get(this.typeUrl);
+    return this.http.get(this.typeUrl).toPromise().then(res => this.roomTypes = res as RoomType[]);
   }
 
   PostRoomType(type: RoomType) {
@@ -25,7 +28,7 @@ export class RoomService {
   }
 
   GetRooms() {
-    return this.http.get(this.roomUrl);
+    return this.http.get(this.roomUrl).toPromise().then(res => this.rooms = res as Room[]);
   }
 
   PostRoom(room: Room) {
