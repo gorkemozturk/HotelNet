@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/services/room.service';
-import { RoomType } from 'src/app/models/room-type';
-import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Room } from 'src/app/models/room';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreateRoomComponent } from './create-room/create-room.component';
 import { CreateTypeComponent } from './create-type/create-type.component';
@@ -14,9 +11,6 @@ import { CreateTypeComponent } from './create-type/create-type.component';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-  roomTypes: RoomType[];
-  rooms: Room[];
-
   constructor(private roomService: RoomService, private toastr: ToastrService, public dialog: MatDialog) { }
 
   ngOnInit() {

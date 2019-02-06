@@ -1,0 +1,67 @@
+<div class="card bg-light rounded-0 border-0">
+    <div class="card-header text-center rounded-0">
+      CREATE A NEW BOOKING
+    </div>
+    <div class="card-body rounded-0">
+      <form #form="ngForm" autocomplete="off">
+        <div class="form-group">
+          <input name="bookingName" #bookingName="ngModel" [class.is-invalid]="bookingName.invalid && bookingName.touched" [class.is-valid]="bookingName.valid" [(ngModel)]="bookingService.bookingName" class="form-control rounded-0" placeholder="Booking Name" required maxlength="100">
+          <div *ngIf="bookingName.errors?.required" class="invalid-feedback">
+            The booking name field is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <select name="roomTypeID" #roomTypeID="ngModel" [class.is-invalid]="roomTypeID.invalid && roomTypeID.touched" [class.is-valid]="roomTypeID.valid" [(ngModel)]="bookingService.roomTypeID" class="form-control rounded-0" required>
+            <option value="">Select Room Type</option>
+            <option value="{{ type.id }}" *ngFor="let type of roomService.roomTypes">{{ type.name }}</option>
+          </select>
+          <div *ngIf="roomTypeID.errors?.required" class="invalid-feedback">
+            The room type field is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <input name="startOn" #startOn="ngModel" [class.is-invalid]="startOn.invalid && startOn.touched" [class.is-valid]="startOn.valid" [(ngModel)]="bookingService.startOn" class="form-control rounded-0" placeholder="Start On" required>
+          <div *ngIf="startOn.errors?.required" class="invalid-feedback">
+            The start on field is required.
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col">
+            <input pattern="^[0-9]{1,9}$" name="duration" #duration="ngModel" [class.is-invalid]="duration.invalid && duration.touched" [class.is-valid]="duration.valid" [(ngModel)]="bookingService.duration" class="form-control rounded-0" placeholder="Duration" required>
+            <div *ngIf="duration.errors?.required" class="invalid-feedback">
+              The duration field is required.
+            </div>
+            <div *ngIf="duration.errors?.pattern" class="invalid-feedback">
+              The duration must be numeric and 9 digits at most.
+            </div>
+          </div>
+          <div class="col">
+            <input pattern="^[0-9]{1,9}$" name="capacity" #capacity="ngModel" [class.is-invalid]="capacity.invalid && capacity.touched" [class.is-valid]="capacity.valid" [(ngModel)]="bookingService.capacity" class="form-control rounded-0" placeholder="Capacity" required>
+            <div *ngIf="capacity.errors?.required" class="invalid-feedback">
+              The capacity field is required.
+            </div>
+            <div *ngIf="capacity.errors?.pattern" class="invalid-feedback">
+              The capacity must be numeric and 9 digits at most.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input pattern="^[0-9]{1,9}$" name="payment" #payment="ngModel" [class.is-invalid]="payment.invalid && payment.touched" [class.is-valid]="payment.valid" [(ngModel)]="bookingService.payment" class="form-control rounded-0" placeholder="Payment" required>
+          <div *ngIf="payment.errors?.required" class="invalid-feedback">
+            The duration field is required.
+          </div>
+          <div *ngIf="payment.errors?.pattern" class="invalid-feedback">
+            The payment must be numeric and 9 digits at most.
+          </div>
+        </div>
+        <div class="form-group form-check">
+          <input name="isActive" #isActive="ngModel" [(ngModel)]="bookingService.isActive" type="checkbox" class="form-check-input">
+          <label class="form-check-label">Avaliable</label>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-right rounded-0">
+      <div class="btn btn-sm btn-secondary rounded-0" (click)="reset(form)">Reset</div>
+      <div class="btn btn-sm btn-primary rounded-0 ml-1" (click)="onSubmit(form)">Submit</div>
+    </div>
+  </div>

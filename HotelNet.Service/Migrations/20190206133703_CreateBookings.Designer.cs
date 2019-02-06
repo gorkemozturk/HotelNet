@@ -4,14 +4,16 @@ using HotelNet.Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelNet.Service.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190206133703_CreateBookings")]
+    partial class CreateBookings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,49 +52,6 @@ namespace HotelNet.Service.Migrations
                     b.HasIndex("RoomTypeID");
 
                     b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("HotelNet.Service.Models.Payment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Amount");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<bool>("IsDone");
-
-                    b.Property<DateTime>("PaymentDay");
-
-                    b.Property<decimal>("RemainingAmount");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("HotelNet.Service.Models.PaymentOption", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("Index");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<double>("Ratio");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("PaymentOptions");
                 });
 
             modelBuilder.Entity("HotelNet.Service.Models.Room", b =>

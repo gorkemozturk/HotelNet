@@ -15,5 +15,8 @@ namespace HotelNet.Service.Data
 
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<PaymentOption> PaymentOptions { get; set; }
+        public DbSet<Payment> Payments { get; set; }
     }
 }

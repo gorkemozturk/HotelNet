@@ -15,8 +15,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 import { CreateTypeComponent } from './components/room/create-type/create-type.component';
 import { BookingComponent } from './components/booking/booking.component';
+import { CreateBookingComponent } from './components/booking/create-booking/create-booking.component';
+import { BookingService } from './services/booking.service';
+import { PaymentOptionsComponent } from './components/payment-options/payment-options.component';
+import { OptionService } from './services/option.service';
 
-const routers: Route[] = [
+const routes: Route[] = [
   {
     path: '',
     component: HomeComponent
@@ -28,6 +32,10 @@ const routers: Route[] = [
   {
     path: 'bookings',
     component: BookingComponent
+  },
+  {
+    path: 'payment-options',
+    component: PaymentOptionsComponent
   }
 ]
 
@@ -40,11 +48,13 @@ const routers: Route[] = [
     HomeComponent,
     CreateRoomComponent,
     CreateTypeComponent,
-    BookingComponent
+    BookingComponent,
+    CreateBookingComponent,
+    PaymentOptionsComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routers),
+    RouterModule.forRoot(routes),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -53,10 +63,13 @@ const routers: Route[] = [
   ],
   entryComponents: [
     CreateRoomComponent,
-    CreateTypeComponent
+    CreateTypeComponent,
+    CreateBookingComponent
   ],
   providers: [
-    RoomService
+    RoomService,
+    BookingService,
+    OptionService
   ],
   bootstrap: [AppComponent]
 })
