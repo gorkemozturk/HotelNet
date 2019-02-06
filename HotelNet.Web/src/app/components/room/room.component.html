@@ -1,90 +1,177 @@
-<div class="row">
-  <div class="col">
-      <div class="card bg-light rounded-0 border-0 ">
-        <div class="card-header text-center rounded-0 border-white">
-          Room Types
-        </div>
-        <div class="card-body rounded-0 p-0">
-          <table class="table table-striped table-borderless">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Tax</th>
-                <th scope="col">Status</th>
-                <th scope="col">Created at</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let type of roomTypes">
-                <td class="align-middle">{{ type.id }}</td>
-                <td class="align-middle">{{ type.name }}</td>
-                <td class="align-middle">{{ type.price }}</td>
-                <td class="align-middle">{{ type.tax }}</td>
-                <td class="align-middle">
-                  <div class="badge badge-primary rounded-0" *ngIf="type.isAvailable">Available</div>
-                  <div class="badge badge-warning rounded-0" *ngIf="!type.isAvailable">Unavailable</div>
-                </td>
-                <td class="align-middle">{{ type.createdAt | date }}</td>
-                <td>
-                  <div (click)="onDelete(type.id, type)" class="btn btn-sm btn-danger rounded-circle">
-                    <i class="far fa-trash-alt"></i>
+<div class="card bg-light rounded-0">
+  <div class="card-header text-center rounded-0">ROOM TYPES</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+          <div class="card bg-light rounded-0">
+            <div class="card-header text-center rounded-0">
+              Room Types
+            </div>
+            <div class="card-body rounded-0 p-0">
+              <table class="table table-striped table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Tax</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created at</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let type of roomTypes">
+                    <td class="align-middle">{{ type.name }}</td>
+                    <td class="align-middle">{{ type.price }}</td>
+                    <td class="align-middle">%{{ type.tax }}</td>
+                    <td class="align-middle">
+                      <div class="badge badge-primary rounded-0" *ngIf="type.isAvailable">Available</div>
+                      <div class="badge badge-warning rounded-0" *ngIf="!type.isAvailable">Unavailable</div>
+                    </td>
+                    <td class="align-middle">{{ type.createdAt | date }}</td>
+                    <td>
+                      <div (click)="onDelete(type.id, type)" class="btn btn-sm btn-danger rounded-circle">
+                        <i class="far fa-trash-alt"></i>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer text-right rounded-0 text-center text-secondary">
+              Total: <span *ngIf="roomTypes">{{ roomTypes.length }}</span>
+            </div>
+          </div>
+      </div>
+      <div class="col">
+        <div class="card bg-light rounded-0 h-100">
+          <div class="card-header text-center rounded-0">
+            Create a New Room Type
+          </div>
+          <div class="card-body rounded-0">
+            <form #form="ngForm" autocomplete="off">
+              <div class="form-group">
+                <input name="name" #name="ngModel" [class.is-invalid]="name.invalid && name.touched" [class.is-valid]="name.valid" [(ngModel)]="roomService.name" class="form-control rounded-0" placeholder="Room Type Name" maxlength="15" required>
+                <div *ngIf="price.errors?.required" class="invalid-feedback">
+                  The name field is required.
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col">
+                  <input pattern="^[0-9]{1,9}$" name="price" #price="ngModel" [(ngModel)]="roomService.price" [class.is-invalid]="price.invalid && price.touched" [class.is-valid]="price.valid" class="form-control rounded-0" placeholder="Price" required>
+                  <div *ngIf="price.errors?.required" class="invalid-feedback">
+                    The price field is required.
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer text-right rounded-0 border-white text-center text-secondary">
-          Total: <span *ngIf="roomTypes">{{ roomTypes.length }}</span>
-        </div>
-      </div>
-  </div>
-  <div class="col">
-    <div class="card bg-light rounded-0 border-0 ">
-      <div class="card-header text-center rounded-0 border-white">
-        Create a New Room Type
-      </div>
-      <div class="card-body rounded-0">
-        <form #form="ngForm" autocomplete="off">
-          <div class="form-group">
-            <input name="name" #name="ngModel" [class.is-invalid]="name.invalid && name.touched" [class.is-valid]="name.valid" [(ngModel)]="roomService.name" class="form-control rounded-0" placeholder="Room Type Name" maxlength="15" required>
-            <div *ngIf="price.errors?.required" class="invalid-feedback">
-              The name field is required.
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col">
-              <input pattern="^[0-9]{1,9}$" name="price" #price="ngModel" [(ngModel)]="roomService.price" [class.is-invalid]="price.invalid && price.touched" [class.is-valid]="price.valid" class="form-control rounded-0" placeholder="Price" required>
-              <div *ngIf="price.errors?.required" class="invalid-feedback">
-                The price field is required.
-            </div>
-              <div *ngIf="price.errors?.pattern" class="invalid-feedback">
-                The price field must be numeric and 9 digits at most.
+                  <div *ngIf="price.errors?.pattern" class="invalid-feedback">
+                    The price field must be numeric and 9 digits at most.
+                  </div>
+                </div>
+                <div class="col">
+                  <input pattern="^[0-9]{1,9}$" name="tax" #tax="ngModel" [(ngModel)]="roomService.tax" [class.is-invalid]="tax.invalid && tax.touched" [class.is-valid]="tax.valid" class="form-control rounded-0" placeholder="Tax" required>
+                  <div *ngIf="tax.errors?.required" class="invalid-feedback">
+                    The tax field is required.
+                </div>
+                  <div *ngIf="tax.errors?.pattern" class="invalid-feedback">
+                    The tax field must be numeric and 9 digits at most.
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <input pattern="^[0-9]{1,9}$" name="tax" #tax="ngModel" [(ngModel)]="roomService.tax" [class.is-invalid]="tax.invalid && tax.touched" [class.is-valid]="tax.valid" class="form-control rounded-0" placeholder="Tax" required>
-              <div *ngIf="tax.errors?.required" class="invalid-feedback">
-                The tax field is required.
-            </div>
-              <div *ngIf="tax.errors?.pattern" class="invalid-feedback">
-                The tax field must be numeric and 9 digits at most.
+              <div class="form-group form-check">
+                <input name="isAvailable" #isAvailable="ngModel" [(ngModel)]="roomService.isAvailable" type="checkbox" class="form-check-input">
+                <label class="form-check-label">Avaliable</label>
               </div>
-            </div>
+            </form>
           </div>
-          <div class="form-group form-check">
-            <input name="isAvailable" #isAvailable="ngModel" [(ngModel)]="roomService.isAvailable" type="checkbox" class="form-check-input">
-            <label class="form-check-label">Avaliable</label>
+          <div class="card-footer text-right rounded-0">
+            <div class="btn btn-sm btn-secondary rounded-0" (click)="reset(form)">Reset</div>
+            <div class="btn btn-sm btn-primary rounded-0 ml-1" (click)="onSubmit(form)">Submit</div>
           </div>
-        </form>
-      </div>
-      <div class="card-footer text-right rounded-0 border-white">
-        <div class="btn btn-sm btn-secondary rounded-0" (click)="reset(form)">Reset</div>
-        <div class="btn btn-sm btn-primary rounded-0 ml-1" (click)="onSubmit(form)">Submit</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="card bg-light rounded-0 mt-5">
+    <div class="card-header text-center rounded-0">ROOMS</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+            <div class="card bg-light rounded-0">
+              <div class="card-header text-center rounded-0">
+                Rooms
+              </div>
+              <div class="card-body rounded-0 p-0">
+                <table class="table table-striped table-borderless">
+                  <thead>
+                    <tr>
+                      <th scope="col">Number</th>
+                      <th scope="col">Room Type</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Created at</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let room of rooms">
+                      <td class="align-middle">{{ room.roomNumber }}</td>
+                      <td class="align-middle">{{ room.roomType.name }}</td>
+                      <td class="align-middle">
+                        <div class="badge badge-primary rounded-0" *ngIf="room.isAvailable">Available</div>
+                        <div class="badge badge-warning rounded-0" *ngIf="!room.isAvailable">Unavailable</div>
+                      </td>
+                      <td class="align-middle">{{ room.createdAt | date }}</td>
+                      <td>
+                        <div (click)="onRoomDelete(room.id, room)" class="btn btn-sm btn-danger rounded-circle">
+                          <i class="far fa-trash-alt"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer text-right rounded-0 text-center text-secondary">
+                Total: <span *ngIf="rooms">{{ rooms?.length }}</span>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+          <div class="card bg-light rounded-0 h-100">
+            <div class="card-header text-center rounded-0">
+              Create a New Room
+            </div>
+            <div class="card-body rounded-0">
+              <form #roomForm="ngForm" autocomplete="off">
+                <div class="form-group">
+                  <input pattern="^[0-9]{1,9}$" name="roomNumber" #roomNumber="ngModel" [class.is-invalid]="roomNumber.invalid && roomNumber.touched" [class.is-valid]="roomNumber.valid" [(ngModel)]="roomService.roomNumber" class="form-control rounded-0" placeholder="Room Number" required>
+                  <div *ngIf="roomNumber.errors?.required" class="invalid-feedback">
+                    The room number field is required.
+                  </div>
+                  <div *ngIf="roomNumber.errors?.pattern" class="invalid-feedback">
+                    The room number field must be numeric and 9 digits at most.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Room Type</label>
+                  <select name="roomTypeID" #roomTypeID="ngModel" [class.is-invalid]="roomTypeID.invalid && roomTypeID.touched" [class.is-valid]="roomTypeID.valid" [(ngModel)]="roomService.roomTypeID" class="form-control rounded-0" required>
+                    <option value="{{ type.id }}" *ngFor="let type of roomTypes">{{ type.name }}</option>
+                  </select>
+                  <div *ngIf="roomTypeID.errors?.required" class="invalid-feedback">
+                    The room type field is required.
+                  </div>
+                </div>
+                <div class="form-group form-check">
+                  <input name="isAvailable" #isAvailable="ngModel" [(ngModel)]="roomService.isAvailable" type="checkbox" class="form-check-input">
+                  <label class="form-check-label">Avaliable</label>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer text-right rounded-0">
+              <div class="btn btn-sm btn-secondary rounded-0" (click)="reset(roomForm)">Reset</div>
+              <div class="btn btn-sm btn-primary rounded-0 ml-1" (click)="onRoomSubmit(roomForm)">Submit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
